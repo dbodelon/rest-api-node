@@ -1,9 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const database = require('./config/database')
 
 //Método do express json(). This middleware is available in Express v4.16.0 onwards. headers na requisição: {"Content-Type": "application/json"}
 app.use(express.json());
+
+//CORS-enabled for all origins!
+app.use(cors());
 
 app.get('/produtos', async function(req, res) {     
     await database.query('select * from produtos',
