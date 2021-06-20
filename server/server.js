@@ -7,8 +7,14 @@ const database = require('./config/database')
 app.use(express.json());
 
 //CORS-enabled for all origins!
-app.use(cors());
-
+//app.use(cors()); 
+ 
+//CORS-enabled with options!
+const corsOptions ={
+    origin:'*'     
+}
+app.use(cors(corsOptions));
+ 
 app.get('/produtos', async function(req, res) {     
     await database.query('select * from produtos',
         function (err, results) {   
@@ -38,7 +44,7 @@ app.post('/produtos/', async function(req, res) {
     )        
 });
 
-app.put('/produtos/:id', async function(req, res){
+app.put('/produtos/:id', async function(req, res){        
     const id = req.params.id
     const post = req.body; 
     await database.query('UPDATE produtos SET nome = ?, descricao = ?, preco = ? WHERE id = ?', [post.nome, post.descricao, post.preco, id], 
